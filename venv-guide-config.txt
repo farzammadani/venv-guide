@@ -1,0 +1,5 @@
+default naming = false
+venv name (no space in name)= 
+requirements file (no space in name)= 
+own batch script (no space in name)= 
+own python script (no space in name) = 
