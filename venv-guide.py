@@ -1,109 +1,30 @@
 import os
 import subprocess
-
 global userinput
 userinput = ''
-
-
-
 #these values will be filled with config info
-global defaultnaming
 defaultnaming = False
-
-global venvname
 venvname = ''
-
-
-global requirementsfilename
 requirementsfilename = ''
-
-
-global ownbatscriptname
 ownbatscriptname = ''
-
-
-global ownpythonscriptname
 ownpythonscriptname = ''
+defaultnamingconfig = ''
+configlines = []
+defaultvenvnameconfig = ['' , '']
+
 
 
 def StartApp():
-
     config()
-
     getinput()
 
 
 
 
-
-
-
 def config():
-    global defaultnaming
     global venvname
-    global requirementsfilename
-    global ownbatscriptname
-    global ownpythonscriptname
+    venvname = ''
 
-    f = open('venv-guide-config.txt','r')
-    configlines = f.readlines()
-    f.close()
-
-
-    #default naming: if true then you never ask for venv name when creating. it will always be named venv
-    defaultnamingconfig = configlines[0]
-    defaultnamingconfig = defaultnamingconfig.replace('\n','')
-    defaultnamingconfig = defaultnamingconfig.replace(' ','')
-    defaultnamingconfigarr = defaultnamingconfig.split('=')
-    defaultnamingconfig = defaultnamingconfigarr[1]
-
-
-    #requirements file name:
-    defaultrequirementsnameconfig = configlines[2]
-    defaultrequirementsnameconfig = defaultrequirementsnameconfig.replace('\n','')
-    defaultrequirementsnameconfig = defaultrequirementsnameconfig.replace(' ','')
-    defaultrequirementsnameconfigarr = defaultrequirementsnameconfig.split('=')
-    requirementsfilename = defaultrequirementsnameconfigarr[1]
-
-
-
-    #own bat script name
-    batchscriptnameconfig = configlines[3]
-    batchscriptnameconfig = batchscriptnameconfig.replace('\n','')
-    batchscriptnameconfig = batchscriptnameconfig.replace(' ','')
-    batchscriptnameconfigarr = batchscriptnameconfig.split('=')
-    ownbatscriptname = batchscriptnameconfigarr[1]
-
-
-    #own python script name
-    ownpythonscriptnameconfig = configlines[4]
-    ownpythonscriptnameconfig = ownpythonscriptnameconfig.replace('\n','')
-    ownpythonscriptnameconfig = ownpythonscriptnameconfig.replace(' ','')
-    ownpythonscriptnameconfigarr = ownpythonscriptnameconfig.split('=')
-    ownpythonscriptname = ownpythonscriptnameconfigarr[1]
-
-
-    #set venv name
-
-    if defaultnamingconfig.upper() == 'TRUE':
-        defaultnaming = True
-        venvname = 'venv'
-
-    elif defaultnamingconfig.upper() == 'FALSE':
-        defaultnaming = False
-        #venv name: if your venv is always named something specific type it here so you are never asked to provide venv name
-        defaultvenvnameconfig = configlines[1]
-        defaultvenvnameconfig = defaultvenvnameconfig.replace('\n','')
-        defaultvenvnameconfig = defaultvenvnameconfig.replace(' ','')
-        defaultvenvnameconfig = defaultvenvnameconfig.split('=')
-        defaultvenvnameconfig = defaultvenvnameconfig[1]
-
-
-
-        if defaultvenvnameconfig.upper() == '':
-            venvname = ''
-        else:
-            venvname = defaultvenvnameconfig
 
 
 
@@ -115,9 +36,18 @@ def getinput():
     global userinput
     #there is a venv-guide-config.txt file in the first line you provide the venv name. the app always checks for that. if there's nothing there it asks you for the venv folder name.
     while(userinput == ''):
+        print(r"""
+##   ##  ###### ##  ## ##   ##  #####  ##   ## ###### ######   ######
+##   ## ####### ### ## ##   ## ####### ##   ## ###### ####### #######
+##   ## ##      ###### ##   ##  #      ##   ##   ##        ## ##
+##   ## ####### ###### ##   ## ##  ### ##   ##   ##   ##   ## #######
+### ### ##      ## ### ### ### ##   ## ##   ##   ##   ##   ## ##
+ #####  ####### ##  ##  #####  ####### ####### ###### ####### #######
+  ###    ###### ##  ##   ###    # ###   #####  ###### ######   ######
+
+        """)
         print('Welcome to venv-guide. Choose one of the options below by typing the number')
         print('')
-        print('0 - provide the name of existing virtual environment')
         print('1 - create a virtual environment in this folder')
         print('2 - install requirements.txt inside the virtual environment')  #asks for venv name #the requirements.txt file should be in the same location
         print('3 - pip freeze the virtual environment') #asks for name of the requirements file you want to save it to (if in config it is empty).
@@ -136,10 +66,7 @@ def getinput():
 
 
         try:
-            if(userchoice == '0'):
-                setvenvname()
-
-            elif(userchoice == '1'):
+            if(userchoice == '1'):
                 createvenv()
 
             elif(userchoice == '2'):
@@ -775,5 +702,6 @@ def reset():
 
 
 #program
+
 
 StartApp()
